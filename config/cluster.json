@@ -1,0 +1,22 @@
+{
+  "__default__": {
+    "cpu": 1,
+    "mem": "1G",
+    "rt": "00:30:00"
+  },
+  "subread_stats_get_subread_bam": {
+    "rt": "4:00:00"
+  },
+  "subread_stats_get_subread_stats": {
+    "mem": "2G",
+    "rt": "12:00:00"
+  },
+  "subread_stats_merge_subread_stats": {
+    "mem": "2G",
+    "rt": "2:00:00"
+  },
+  "subread_stats_summarize_sample": {
+    "mem": "8G",
+    "rt": "12:00:00"
+  }
+}
