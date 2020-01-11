@@ -15,6 +15,8 @@ Subread statistics come in two categories and are prefixed with "SUB" or "ROI".
 
 ## Run ##
 
+Each run of this tool generates statistics for one sample, which may include one or more sequence files. To run stats on several samples, invoke the tool once per sample.
+
 ### Input file ###
 
 The only required input file is a list of sequence data files. These may be ".bax.h5" files from RS II, or
@@ -25,7 +27,7 @@ as long as the structure of the input files remains consistent.
 
 The file name should be "SAMPLE.fofn" where "SAMPLE" is the sample name. If it follows this convention, then the
 pipeline can get the sample name from the FOFN file name instead of requiring that it be specified. Using sample names
-allows several samples to be run in the same run directory.
+allows several samples to be run in the same run directory. Alternatively, if the FOFN file does not contain the sample name, then the sample name may be specified after `--config` as `sample=SAMPLE`.
 
 This file name is provided to the pipeline after `--config` on the command line (see below).
 
@@ -49,6 +51,18 @@ Run on a single node:
 `snakemake -s ${PIPELINE_DIR}/Snakefile --ri -k --config fofn=/path/to/SAMPLE.fofn`
 
 ...where "SAMPLE.fofn" is the input file name.
+
+#### Results ####
+
+The results for each sample will be placed in a subdirectory named after the sample. Tables will appear as
+tab-delimited files (".tab") and Excel files (".xlsx").
+
+* cell_summary: Summary stats table per cell
+* sample_summary: Summary stats table for all reads in the sample
+* plot/cdf: Cumulative distribution plots of all subreads or the longest subread per read (ROI).
+* cells/CELL-NAME/zmw_summary.tab.gz: Data each ZMW including number of subreads and subread lengths. These stats are
+  used to compute the cell and sample summaries. If the raw input are not needed, these may be deleted after the stats
+  are generated.
 
 
 #### Specifying the sample name ####
