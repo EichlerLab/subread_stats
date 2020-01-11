@@ -37,18 +37,25 @@ rule subread_stats_summarize_sample:
                 'SUB_MEAN': pd.Series(np.mean(subread_list)),
                 'SUB_MED': np.median(subread_list),
                 'SUB_N50': subread_list[sum(np.cumsum(subread_list) < np.sum(subread_list) * 0.5)],
-                'SUB_SD': np.std(subread_list),
                 'SUB_SUM': np.sum(subread_list),
                 'SUB_N': len(subread_list),
+                'SUB_SD': np.std(subread_list),
                 'ROI_MEAN': pd.Series(np.mean(roi_list)),
                 'ROI_MED': np.median(roi_list),
                 'ROI_N50': roi_list[sum(np.cumsum(roi_list) < np.sum(roi_list) * 0.5)],
-                'ROI_SD': np.std(roi_list),
                 'ROI_SUM': np.sum(roi_list),
                 'ROI_N': len(roi_list),
+                'ROI_SD': np.std(roi_list),
                 'MAX': max(subread_list)
             }
         )
+
+        df_summary = df_summary.loc[: , (
+            'SAMPLE', 'CELLS',
+            'SUB_MEAN', 'SUB_MED', 'SUB_N50', 'SUB_SUM', 'SUB_N', 'SUB_SD',
+            'ROI_MEAN', 'ROI_MED', 'ROI_N50', 'ROI_SUM', 'ROI_N', 'ROI_SD',
+            'MAX'
+        )]
 
         # Write
         df_summary.to_csv(output.tab, sep='\t', index=False)
@@ -131,22 +138,22 @@ rule subread_stats_get_subread_stats:
                 'SUB_MEAN': pd.Series(np.mean(ser)),
                 'SUB_MED': pd.Series(np.median(ser)),
                 'SUB_N50': np.min(ser[np.cumsum(ser) >= np.sum(ser) * 0.5]),
-                'SUB_SD': np.std(ser),
                 'SUB_SUM': np.sum(ser),
                 'SUB_N': ser.shape[0],
+                'SUB_SD': np.std(ser),
                 'ROI_MEAN': np.mean(df['MAX']),
                 'ROI_MED': np.median(df['MAX']),
                 'ROI_N50': np.min(df['MAX'][np.cumsum(df['MAX']) >= np.sum(df['MAX']) * 0.5]),
-                'ROI_SD': np.std(df['MAX']),
                 'ROI_SUM': np.sum(df['MAX']),
                 'ROI_N': df.shape[0],
+                'ROI_SD': np.std(df['MAX']),
                 'MAX': max(ser)
             }
         )
 
         df_summary = df_summary.loc[: , (
-            'SUB_MEAN', 'SUB_MED', 'SUB_SD', 'SUB_SUM', 'SUB_N', 'SUB_N50',
-            'ROI_MEAN', 'ROI_MED', 'ROI_SD', 'ROI_SUM', 'ROI_N', 'ROI_N50',
+            'SUB_MEAN', 'SUB_MED', 'SUB_N50', 'SUB_SUM', 'SUB_N', 'SUB_SD',
+            'ROI_MEAN', 'ROI_MED', 'ROI_N50', 'ROI_SUM', 'ROI_N', 'ROI_SD',
             'MAX'
         )]
 

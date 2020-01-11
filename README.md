@@ -35,15 +35,18 @@ Define a variable that gives the full path to the pipeline code, which is the di
 and this `README.md` file. The pipeline itself does not use the variable, but commands in this README will.
 
 Example:
-`PIPELINE_DIR=/net/eichler/vol27/projects/structural_variation/nobackups/pipelines/subread_stats/201905`
+`PIPELINE_DIR=/net/eichler/vol27/projects/structural_variation/nobackups/pipelines/subread_stats/201910`
 
 Load required modules (may work with later versions of these modules):
 ```
 module load miniconda/4.5.12
 ```
 
-Run distributed:
+Run distributed (SGE):
 `mkdir -p log; snakemake -s ${PIPELINE_DIR}/Snakefile --ri -j 30 -k --jobname "{rulename}.{jobid}" --drmaa " -V -cwd -e ./log -o ./log -pe serial {cluster.cpu} -l mfree={cluster.mem} -l h_rt={cluster.rt} -l gpfsstate=0 -j y -w n -S /bin/bash" -w 60 -u ${PIPELINE_DIR}/config/cluster.json --config fofn=/path/to/SAMPLE.fofn`
+
+Run on a single node:
+`snakemake -s ${PIPELINE_DIR}/Snakefile --ri -k --config fofn=/path/to/SAMPLE.fofn`
 
 ...where "SAMPLE.fofn" is the input file name.
 
@@ -51,4 +54,5 @@ Run distributed:
 #### Specifying the sample name ####
 
 The sample name may be explicitly provided on the command line by specifying `sample=SAMPLE` on the command line
-anywhere after `--config`.
+anywhere after `--config`. If it is not specified, the FOFN file name is used to determine the sample name.
+

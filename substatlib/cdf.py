@@ -58,15 +58,30 @@ def get_size_list(sample, cells=None, read_type='subread', per_cell=False):
     return size_list
 
 
-def get_cdf_plot(size_list, width=7, height=7, dpi=300, z_cut=2.5, legend=True):
+def get_cdf_plot(
+        size_list, width=7, height=7, dpi=300, z_cut=2.5, legend=True,
+        grid_spec = {'color': '#b8b8c8', 'which': 'both', 'lw': 0.5}
+    ):
     """
     Get a CDF plot.
+
+    :param size_list: A list of 2-element tuples, [0] sample name, [1] a numpy array of sizes. Sizes do not need to
+        be sorted.
+    :param width: Figure width.
+    :param height: Figure height.
+    :param dpi: Figure resolution.
+    :param z_cut: Cut high values at this z-score cutoff. This prevents large outliers from expanding the x-axis
+        and compressing the useful visualazation to the left side of x.
+    :param legend: Display a legend with line colors and sample names.
+    :param grid_spec: A dictionary of grid keywords (for axes.grid) to specify how the grid should be constructed. Set
+        to `None` to disable the grid and show a blank background.
     """
 
     # Make figure
-    fig = plt.figure(1, figsize=(width, height), dpi=dpi)
+    #fig, ax = plt.figure(1, figsize=(width, height), dpi=dpi)
+    # ax = fig.add_subplot(1, 1, 1)
 
-    ax = fig.add_subplot(1, 1, 1)
+    fig, ax = plt.subplots(1, 1, figsize=(width, height), dpi=dpi)
 
     for label, sizes in size_list:
 
@@ -98,6 +113,10 @@ def get_cdf_plot(size_list, width=7, height=7, dpi=300, z_cut=2.5, legend=True):
     # Add legend
     if legend:
         ax.legend(prop={'size': 10})
+
+    # Add grid
+    if grid_spec is not None:
+        ax.grid(**grid_spec)
 
     # Return plot
     return fig

@@ -6,6 +6,11 @@ Make cumulative read size distribution.
 #
 # Make CDF plot.
 rule subread_stats_plot_cdf:
+    input:
+        tab=lambda wildcards: [
+            '{0}/cells/{1}/zmw_summary.tab.gz'.format(SAMPLE_NAME, cell)
+            for cell in get_cell_dict().keys()
+        ]
     output:
         pdf='{sample}/plot/cdf/cdf_{per_cell}_{read_type}.pdf',
         png='{sample}/plot/cdf/cdf_{per_cell}_{read_type}.png'
