@@ -15,19 +15,21 @@ Subread statistics come in two categories and are prefixed with "SUB" or "ROI".
 
 ## Run ##
 
-Each run of this tool generates statistics for one sample, which may include one or more sequence files. To run stats on several samples, invoke the tool once per sample.
+Each run of this tool generates statistics for one sample, which may include one or more sequence files. To run stats
+on several samples, invoke the tool once per sample.
 
 ### Input file ###
 
-The only required input file is a list of sequence data files. These may be ".bax.h5" files from RS II, or
-".subreads.bam" files from Sequel.
+The only required input file is a list of sequence data files. Input files must be ".subreads.bam" files. RS II data
+can be handled if the BAX are converted to BAMs first (see PacBio's bax2bam).
 
 This pipeline is up to date as of Sequel 2.2 (1M chip). It is not sensitive to the sequencing platform or chemistry
 as long as the structure of the input files remains consistent.
 
 The file name should be "SAMPLE.fofn" where "SAMPLE" is the sample name. If it follows this convention, then the
 pipeline can get the sample name from the FOFN file name instead of requiring that it be specified. Using sample names
-allows several samples to be run in the same run directory. Alternatively, if the FOFN file does not contain the sample name, then the sample name may be specified after `--config` as `sample=SAMPLE`.
+allows several samples to be run in the same run directory. Alternatively, if the FOFN file does not contain the sample
+name, then the sample name may be specified after `--config` as `sample=SAMPLE`.
 
 This file name is provided to the pipeline after `--config` on the command line (see below).
 
