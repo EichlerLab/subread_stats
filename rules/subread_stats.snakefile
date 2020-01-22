@@ -46,7 +46,9 @@ rule subread_stats_summarize_sample:
                 'ROI_SUM': np.sum(roi_list),
                 'ROI_N': len(roi_list),
                 'ROI_SD': np.std(roi_list),
-                'MAX': max(subread_list)
+                'MAX': max(subread_list),
+                'SUB_SUM_20K': np.sum([val for val in subread_list if val >= 20000]),
+                'SUB_SUM_50K': np.sum([val for val in subread_list if val >= 50000])
             }
         )
 
@@ -54,7 +56,7 @@ rule subread_stats_summarize_sample:
             'SAMPLE', 'CELLS',
             'SUB_MEAN', 'SUB_MED', 'SUB_N50', 'SUB_SUM', 'SUB_N', 'SUB_SD',
             'ROI_MEAN', 'ROI_MED', 'ROI_N50', 'ROI_SUM', 'ROI_N', 'ROI_SD',
-            'MAX'
+            'MAX', 'SUB_SUM_20K', 'SUB_SUM_50K'
         )]
 
         # Write
@@ -147,14 +149,16 @@ rule subread_stats_get_subread_stats:
                 'ROI_SUM': np.sum(df['MAX']),
                 'ROI_N': df.shape[0],
                 'ROI_SD': np.std(df['MAX']),
-                'MAX': max(ser)
+                'MAX': max(ser),
+                'SUB_SUM_20K': np.sum(ser.loc[ser >= 20000]),
+                'SUB_SUM_50K': np.sum(ser.loc[ser >= 50000])
             }
         )
 
         df_summary = df_summary.loc[: , (
             'SUB_MEAN', 'SUB_MED', 'SUB_N50', 'SUB_SUM', 'SUB_N', 'SUB_SD',
             'ROI_MEAN', 'ROI_MED', 'ROI_N50', 'ROI_SUM', 'ROI_N', 'ROI_SD',
-            'MAX'
+            'MAX', 'SUB_SUM_20K', 'SUB_SUM_50K'
         )]
 
         df_summary.index = [wildcards.cell]

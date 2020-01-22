@@ -39,7 +39,7 @@ Define a variable that gives the full path to the pipeline code, which is the di
 and this `README.md` file. The pipeline itself does not use the variable, but commands in this README will.
 
 Example:
-`PIPELINE_DIR=/net/eichler/vol27/projects/structural_variation/nobackups/pipelines/subread_stats/201910`
+`PIPELINE_DIR=/net/eichler/vol27/projects/structural_variation/nobackups/pipelines/subread_stats/202001`
 
 Load required modules (may work with later versions of these modules):
 ```
